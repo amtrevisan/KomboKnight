@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
         // Animation parameters for state switching
         animator.SetFloat("yVelocity", rb.linearVelocity.y);
         animator.SetBool("isGrounded", isGrounded());
+        animator.SetFloat("Speed", Mathf.Abs(horizontal));
     }
     void Flip(){
         isFacingRight = !isFacingRight;
