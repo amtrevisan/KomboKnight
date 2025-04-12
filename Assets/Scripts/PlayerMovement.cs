@@ -3,9 +3,10 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private float horizontal; 
-    public float speed = 5f; 
+    private float vertical; 
+    public float speed = 10f; 
     private bool isFacingRight = true;
-    public float jumpForce = 16f;
+    public float jumpForce = 12f;
 
     [SerializeField] private Rigidbody2D rb; // Reference to  the rigidBody attatched to the player
     [SerializeField] private Transform groundCheck;
@@ -15,7 +16,9 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         horizontal = Input.GetAxisRaw("Horizontal");
-        rb.linearVelocity = new Vector2(horizontal * speed,rb.linearVelocity.y);
+        vertical = Input.GetAxisRaw("Vertical");
+        float fallSpeed = (vertical < 0) ? -speed : rb.linearVelocity.y;
+        rb.linearVelocity = new Vector2(horizontal * speed, fallSpeed);
         if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f){
             Flip();
         }
