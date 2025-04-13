@@ -1,7 +1,9 @@
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
-{
+{   
+    public float lastDashTime;
+    public Vector3 playerPos;
     private float horizontal; 
     private float vertical; 
     public float speed = 10f; 
@@ -12,15 +14,33 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer; 
     [SerializeField] private Animator animator;
 
+    private bool isDashing = false;
+    private float dashCooldown = 1f;
+    private float dashDuration = 0.2f;
+
     // Update is called once per frame
     void Update()
     {
         // Player movement inputs
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
-        // Fast Fall mechanic
-        float fallSpeed = (vertical < 0) ? -speed : rb.linearVelocity.y;
-        rb.linearVelocity = new Vector2(horizontal * speed, fallSpeed);
+        // Dashing logic
+        if (isDashing && Time.time >= lastDashTime + dashDuration) {
+            isDashing = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.L) && horizontal != 0 && isGrounded() && Time.time >= lastDashTime + dashCooldown) {
+            isDashing = true;
+            lastDashTime = Time.time;
+            rb.linearVelocity = new Vector2(horizontal * 25f, rb.linearVelocity.y);
+            Debug.Log("Dash Triggered");
+        }
+        // Default movement
+        if (!isDashing) {
+            float fallSpeed = (vertical < 0) ? -speed : rb.linearVelocity.y;
+            rb.linearVelocity = new Vector2(horizontal * speed, fallSpeed);
+        }
+
         // Check if sprite flip is necesarry accordint to movement
         if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f){
             Flip();
