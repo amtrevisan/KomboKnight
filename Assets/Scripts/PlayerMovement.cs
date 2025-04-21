@@ -4,12 +4,13 @@ using System.Collections.Generic;
 
 public class PlayerMovement : MonoBehaviour
 {   
-    public Vector3 playerPos;
+    public Vector3 position;
     private float horizontal; 
     private float vertical; 
     public float speed = 10f; 
     private bool isFacingRight = true;
-    public float jumpForce = 12f;
+    private float jumpForce = 12f;
+    public int damage = 10;
     [SerializeField] private Rigidbody2D rb; 
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer; 
@@ -20,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     private float dashingPower = 24f;
     private float dashingTime = 0.2f;
     private float dashingCooldown = 1f;
-    private bool hasDashedInAir = false; // added flag to track if dashed in air
+    private bool hasDashedInAir = false;
 
     // Update is called once per frame
     void Update()
@@ -34,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
         vertical = Input.GetAxisRaw("Vertical");
         float fallSpeed = (vertical < 0) ? -speed : rb.linearVelocity.y;
         rb.linearVelocity = new Vector2(horizontal * speed, fallSpeed);
-        // dashing logic
+        // dashing
         if(Input.GetKeyDown(KeyCode.L) && canDash){
             StartCoroutine(Dash());
         }
@@ -53,6 +54,8 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("isGrounded", isGrounded());
         animator.SetFloat("Speed", Mathf.Abs(horizontal));
         animator.SetBool("isDashing", isDashing);
+        // Update Player Position
+        position = transform.position;
     }
     private void FixedUpdate(){
         if(isDashing){
