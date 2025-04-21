@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public int damage = 10;
     [SerializeField] private Rigidbody2D rb; 
     [SerializeField] private Transform groundCheck;
-    [SerializeField] private LayerMask groundLayer; 
+    [SerializeField] public LayerMask groundLayer; 
     [SerializeField] private Animator animator;
     // Dash variables
     private bool canDash = true;
