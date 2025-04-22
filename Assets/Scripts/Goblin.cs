@@ -1,13 +1,16 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 public class Goblin : MonoBehaviour
 {
-    private int health = 100;
-    private int damage = 10;
+    private int knockback = 0;
     private float speed = 5f;
-    private Vector3 position;
+    public Vector3 position;
     private bool isFacingRight = true;
     [SerializeField] private PlayerMovement player;
     [SerializeField] private Rigidbody2D rb;
+    private bool isAttacked;
+    private bool isKnockedBack;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -18,7 +21,24 @@ public class Goblin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        followPlayer();
+        // Knockback wait
+        if (isKnockedBack)
+        {
+            if (Mathf.Abs(rb.linearVelocity.x) < 0.1f)
+            {
+                isKnockedBack = false;
+            }
+            else
+            {
+                return; 
+            }
+        }
+        if(isAttacked){
+            return;
+        }
+        
+        //Debug
+        FollowPlayer();
         // Update Goblin position
         position = transform.position;
         // Raycast for auto jump
@@ -31,10 +51,36 @@ public class Goblin : MonoBehaviour
             Flip();
         }
     }
-    void takeDamage(){
-        health -= player.damage;
+    private void FixedUpdate(){
+        if (isAttacked){
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+        if (isKnockedBack)
+        {
+            return;
+        }
     }
-    void followPlayer(){
+    public IEnumerator TakeDamage(int attackDamage){
+        knockback += attackDamage;
+        isAttacked = true;
+        
+        Debug.Log(knockback);
+        // Stop movement
+        Vector2 originalVelocity = rb.linearVelocity; 
+        rb.linearVelocity = Vector2.zero; 
+        rb.gravityScale = 0f; 
+
+        yield return new WaitForSeconds(player.abilityTime);
+
+        rb.gravityScale = 1f;
+        isAttacked = false;
+        isKnockedBack = true;
+        // Apply knockback
+        int direction = (player.position.x < position.x) ? 1 : -1;
+        rb.linearVelocity = new Vector2(knockback * direction, rb.linearVelocity.y);
+    }
+    void FollowPlayer(){
         if(player.position.x <= position.x){
             rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
         }
