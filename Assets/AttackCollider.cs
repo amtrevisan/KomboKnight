@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class AttackCollider : MonoBehaviour
 {
-    public List<Goblin> enemiesInRange = new List<Goblin>();
+    public List<Enemy> enemiesInRange = new List<Enemy>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -14,15 +14,16 @@ public class AttackCollider : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Enemy"))
         {
-            Goblin goblin = other.GetComponent<Goblin>();
-            if (goblin != null && !enemiesInRange.Contains(goblin))
+            Enemy enemy = other.GetComponent<Enemy>();
+            if (enemy != null && !enemiesInRange.Contains(enemy))
             {
-                enemiesInRange.Add(goblin);
+                enemiesInRange.Add(enemy);
             }
         }
     }
@@ -31,10 +32,10 @@ public class AttackCollider : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            Goblin goblin = other.GetComponent<Goblin>();
-            if (goblin != null && enemiesInRange.Contains(goblin))
+            Enemy enemy = other.GetComponent<Enemy>();
+            if (enemy != null && enemiesInRange.Contains(enemy))
             {
-                enemiesInRange.Remove(goblin);
+                enemiesInRange.Remove(enemy);
             }
         }
     }
