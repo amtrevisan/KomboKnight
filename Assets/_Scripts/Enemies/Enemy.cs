@@ -7,23 +7,22 @@ public class Enemy : MonoBehaviour
     // Setters
     public int knockback = 0;
     protected float speed;
-    private Vector3 position;
-    private bool isFacingRight = true;
-    private bool isAttacked;
+    protected bool isFacingRight = true;
+    protected bool isAttacked;
     protected bool isKnockedBack;
     protected Rigidbody2D rb;
 
     // Getters
     public Vector3 GetPosition(){
-        return position;
+        return transform.position;
     }
 
     // Functions
     protected void FollowPlayer(){
-        if(PlayerMovement.Instance.GetPosition().x <= position.x){
+        if(PlayerMovement.Instance.GetPosition().x <= GetPosition().x){
             rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
         }
-        else if (PlayerMovement.Instance.GetPosition().x >= position.x){
+        else if (PlayerMovement.Instance.GetPosition().x >= GetPosition().x){
             rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
         }
     }
@@ -36,19 +35,20 @@ public class Enemy : MonoBehaviour
     public IEnumerator TakeDamage(int attackDamage, int knockbackForce){
         knockback += attackDamage;
         isAttacked = true;
+        Debug.Log("Attacked");
         
         // Stop movement
         Vector2 originalVelocity = rb.linearVelocity; 
         rb.linearVelocity = Vector2.zero; 
         rb.gravityScale = 0f; 
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.2f);
 
         rb.gravityScale = 1f;
         isAttacked = false;
         isKnockedBack = true;
         // Apply knockback
-        int direction = (PlayerMovement.Instance.GetPosition().x < position.x) ? 1 : -1;
+        int direction = (PlayerMovement.Instance.GetPosition().x < GetPosition().x) ? 1 : -1;
         rb.linearVelocity = new Vector2(knockback * knockbackForce * direction, rb.linearVelocity.y);
     }
     private void Awake()
@@ -80,11 +80,9 @@ public class Enemy : MonoBehaviour
             return;
         }
         FollowPlayer();
-        // Update Enemy position
-        position = transform.position;
         // Raycast for auto jump
         Vector2 rayDirection = (isFacingRight) ? Vector2.right : Vector2.left;
-        RaycastHit2D groundHit = Physics2D.Raycast(position, rayDirection, 3f, LayerManager.Instance.GetGroundLayer());
+        RaycastHit2D groundHit = Physics2D.Raycast(GetPosition(), rayDirection, 3f, LayerManager.Instance.GetGroundLayer());
         if(groundHit.collider != null){
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, 6f);
         }

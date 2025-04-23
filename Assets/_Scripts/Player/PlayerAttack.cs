@@ -20,7 +20,7 @@ public class PlayerAttack : MonoBehaviour
     // Setters
     public int knockback;
     private bool canAttack;
-    private bool isAttacking;
+    private bool isAttacking = false;
     private bool usingGNL;
     [SerializeField] private AttackCollider attackCollider;
     // Getters
@@ -30,20 +30,30 @@ public class PlayerAttack : MonoBehaviour
     public bool IsUsingGNL(){
         return usingGNL;
     }
+    // helpers
+    private bool IsEnemyInFront(Enemy enemy)
+    {
+        if (PlayerMovement.Instance.GetIsFacingRight()){
+            return PlayerMovement.Instance.GetPosition().x < enemy.GetPosition().x;
+        }     
+        else{
+            return PlayerMovement.Instance.GetPosition().x > enemy.GetPosition().x;
+        }
+    }
     // Attacks:
     private IEnumerator GroundNeutralLight(){
         canAttack = false;
         isAttacking = true;
         usingGNL = true;
         // So that enemy gets damaged if it is in range and player is facing in its direction
-        
         foreach (Enemy enemy in attackCollider.enemiesInRange){
-            if((PlayerMovement.Instance.GetIsFacingRight() && PlayerMovement.Instance.GetPosition().x <= enemy.GetPosition().x) || 
-            (!PlayerMovement.Instance.GetIsFacingRight() && PlayerMovement.Instance.GetPosition().x >= enemy.GetPosition().x)){
-                StartCoroutine(enemy.TakeDamage(1,1));
-            }       
-        } 
-        yield return new WaitForSeconds(0.42f);
+            Debug.Log(IsEnemyInFront(enemy));
+            if (IsEnemyInFront(enemy)){
+                StartCoroutine(enemy.TakeDamage(1, 1));
+            }
+        }
+        
+        yield return new WaitForSeconds(0.2f);
 
         
         canAttack = true;
