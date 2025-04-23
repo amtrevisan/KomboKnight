@@ -61,9 +61,9 @@ public class PlayerMovement : MonoBehaviour
         isDashing = true;
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
-        rb.linearVelocity = new Vector2(transform.localScale.x * 12f, 0f);
+        rb.linearVelocity = new Vector2(transform.localScale.x * 24f, 0f);
         hasDashedInAir = !IsGrounded(); // record if it was an air dash
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(.25f);
         isDashing = false;
         rb.gravityScale = originalGravity;
 

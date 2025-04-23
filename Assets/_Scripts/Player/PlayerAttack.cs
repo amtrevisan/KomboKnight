@@ -43,7 +43,7 @@ public class PlayerAttack : MonoBehaviour
                 StartCoroutine(enemy.TakeDamage(1,1));
             }       
         } 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.42f);
 
         
         canAttack = true;
