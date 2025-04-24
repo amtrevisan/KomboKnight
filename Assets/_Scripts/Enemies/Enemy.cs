@@ -8,8 +8,8 @@ public class Enemy : MonoBehaviour
     public int knockback = 0;
     protected float speed;
     protected bool isFacingRight = true;
-    protected bool isAttacked;
-    protected bool isKnockedBack;
+    protected bool isAttacked = false;
+    protected bool isKnockedBack = false;
     protected Rigidbody2D rb;
 
     // Getters
@@ -58,11 +58,10 @@ public class Enemy : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
         // Knockback wait
         if (isKnockedBack)
@@ -92,7 +91,7 @@ public class Enemy : MonoBehaviour
     }
 
     // Physics Updates
-    private void FixedUpdate(){
+    protected private void FixedUpdate(){
         if (isAttacked){
             rb.linearVelocity = Vector2.zero;
             return;
@@ -101,6 +100,7 @@ public class Enemy : MonoBehaviour
         {
             return;
         }
+        
     }
     
 }

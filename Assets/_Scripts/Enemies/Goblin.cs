@@ -14,9 +14,9 @@ public class Goblin : Enemy
     // Update is called once per frame
     void Update()
     {
-        
+        base.Update();
     }
     private void FixedUpdate(){
-        
+        base.FixedUpdate();
     }
 }
