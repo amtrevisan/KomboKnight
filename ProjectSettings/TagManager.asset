@@ -42,5 +42,26 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: 1Background
+    uniqueID: 3421709251
+    locked: 0
+  - name: 1Woods
+    uniqueID: 864406371
+    locked: 0
+  - name: 2Woods
+    uniqueID: 3148216175
+    locked: 0
+  - name: 3Woods
+    uniqueID: 2671783619
+    locked: 0
+  - name: 4Woods
+    uniqueID: 35656861
+    locked: 0
+  - name: Player
+    uniqueID: 4102407297
+    locked: 0
+  - name: TileMap
+    uniqueID: 56996395
+    locked: 0
   m_RenderingLayers:
   - Default
