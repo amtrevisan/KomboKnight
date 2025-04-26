@@ -47,7 +47,6 @@ public class PlayerAttack : MonoBehaviour
         usingGNL = true;
         // So that enemy gets damaged if it is in range and player is facing in its direction
         foreach (Enemy enemy in attackCollider.enemiesInRange){
-            Debug.Log(IsEnemyInFront(enemy));
             if (IsEnemyInFront(enemy)){
                 StartCoroutine(enemy.TakeDamage(1, 1));
             }

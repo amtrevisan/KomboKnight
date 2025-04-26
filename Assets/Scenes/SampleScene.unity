@@ -4326,7 +4326,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: -0.6, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4345,6 +4345,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1517627326}
+  smoothSpeed: 1
+  offset: {x: 0, y: 0, z: 0}
 --- !u!1 &555740626
 GameObject:
   m_ObjectHideFlags: 0
@@ -5734,6 +5736,7 @@ GameObject:
   - component: {fileID: 1802911624}
   - component: {fileID: 1802911623}
   - component: {fileID: 1802911627}
+  - component: {fileID: 1802911628}
   m_Layer: 6
   m_Name: Goblin
   m_TagString: Enemy
@@ -5869,7 +5872,7 @@ Transform:
   m_GameObject: {fileID: 1802911622}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 39.06, y: 7.23, z: 0}
+  m_LocalPosition: {x: 39.06, y: 2.45, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5888,6 +5891,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockback: 0
+  animator: {fileID: 1802911628}
+--- !u!95 &1802911628
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1802911622}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4ce48b8a74a744e759e4ebea7e0af04e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1886391576
 GameObject:
   m_ObjectHideFlags: 0

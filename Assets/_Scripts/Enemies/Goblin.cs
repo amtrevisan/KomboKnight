@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class Goblin : Enemy
 {
+    [SerializeField] private Animator animator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -15,6 +16,9 @@ public class Goblin : Enemy
     void Update()
     {
         base.Update();
+        animator.SetBool("isRunning", isMoving);
+        animator.SetBool("isHit", isAttacked);
+        animator.SetBool("isKnockedBack", isKnockedBack);
     }
     private void FixedUpdate(){
         base.FixedUpdate();

@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     protected bool isAttacked = false;
     protected bool isKnockedBack = false;
     protected Rigidbody2D rb;
+    protected bool isMoving;
 
     // Getters
     public Vector3 GetPosition(){
@@ -35,7 +36,6 @@ public class Enemy : MonoBehaviour
     public IEnumerator TakeDamage(int attackDamage, int knockbackForce){
         knockback += attackDamage;
         isAttacked = true;
-        Debug.Log("Attacked");
         
         // Stop movement
         Vector2 originalVelocity = rb.linearVelocity; 
@@ -77,6 +77,13 @@ public class Enemy : MonoBehaviour
         }
         if(isAttacked){
             return;
+        }
+        if (Mathf.Abs(rb.linearVelocity.x) > 0)
+            {
+                isMoving = true;
+            }
+        else{
+            isMoving = false;
         }
         FollowPlayer();
         // Raycast for auto jump
