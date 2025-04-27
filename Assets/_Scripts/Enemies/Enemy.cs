@@ -20,6 +20,10 @@ public class Enemy : MonoBehaviour
 
     // Functions
     protected void FollowPlayer(){
+        if(Mathf.Abs(PlayerMovement.Instance.GetPosition().x - GetPosition().x) <= 1){
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            return;
+        }
         if(PlayerMovement.Instance.GetPosition().x <= GetPosition().x){
             rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
         }
