@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     }
     // Setters
     private Vector3 position;
+    private int knockback;
     private float speed = 10f; 
     private bool isFacingRight = true;
     private float jumpForce = 12f;
@@ -29,6 +30,8 @@ public class PlayerMovement : MonoBehaviour
     private float dashingCooldown = 1f;
     private bool hasDashedInAir = false;
     private bool isUsingGNL;
+    private bool isAttacked;
+    private bool isKnockedBack;
     // Getters
     public Vector3 GetPosition(){
         return position;
@@ -78,10 +81,39 @@ public class PlayerMovement : MonoBehaviour
 
         canDash = true;
     }
+    public IEnumerator TakeDamage(int attackDamage, int knockbackForce, Vector3 attackerPosition){
+        knockback += attackDamage;
+        isAttacked = true;
+        
+        // Stop movement
+        Vector2 originalVelocity = rb.linearVelocity; 
+        rb.linearVelocity = Vector2.zero; 
+        rb.gravityScale = 0f; 
+
+        yield return new WaitForSeconds(0.2f);
+
+        rb.gravityScale = 1f;
+        isAttacked = false;
+        isKnockedBack = true;
+        // Apply knockback
+        int direction = (attackerPosition.x < GetPosition().x) ? 1 : -1;
+        rb.linearVelocity = new Vector2(knockback * knockbackForce * direction, rb.linearVelocity.y);
+    }
     // Update is called once per frame
     void Update()
     {
-        if (isDashing || PlayerAttack.Instance.GetIsAttacking()){
+        if (isKnockedBack)
+        {
+            if (Mathf.Abs(rb.linearVelocity.x) < 0.1f)
+            {
+                isKnockedBack = false;
+            }
+            else
+            {
+                return; 
+            }
+        }
+        if (isDashing || PlayerAttack.Instance.GetIsAttacking() || isAttacked){
             return;
         }
         

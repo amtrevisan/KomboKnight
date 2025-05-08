@@ -10,6 +10,7 @@ public class Goblin : Enemy
     void Start()
     {
         speed = 7f;
+        damage = 1;
     }
 
     // Update is called once per frame

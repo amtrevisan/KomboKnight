@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour
 {
     // Setters
     public int knockback = 0;
+    protected int damage = 1;
     protected float speed;
     protected bool isFacingRight = true;
     protected bool isAttacked = false;
@@ -88,6 +89,9 @@ public class Enemy : MonoBehaviour
             }
         else{
             isMoving = false;
+        }
+        if(Mathf.Abs(PlayerMovement.Instance.GetPosition().x - GetPosition().x) <= 1){
+            StartCoroutine(PlayerMovement.Instance.TakeDamage(1, damage, GetPosition()));
         }
         FollowPlayer();
         // Raycast for auto jump

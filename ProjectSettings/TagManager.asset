@@ -42,20 +42,17 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: 1Background
+  - name: BG1
     uniqueID: 3421709251
     locked: 0
-  - name: 1Woods
+  - name: BG2
     uniqueID: 864406371
     locked: 0
-  - name: 2Woods
+  - name: BG3
     uniqueID: 3148216175
     locked: 0
-  - name: 3Woods
+  - name: BG4
     uniqueID: 2671783619
-    locked: 0
-  - name: 4Woods
-    uniqueID: 35656861
     locked: 0
   - name: Player
     uniqueID: 4102407297
