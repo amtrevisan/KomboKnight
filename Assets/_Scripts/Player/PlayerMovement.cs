@@ -45,7 +45,51 @@ public class PlayerMovement : MonoBehaviour
     public bool GetIsDashing(){
         return isDashing;
     }
-    // Functions
+   
+    // Update is called once per frame
+    void Update()
+    {
+        if (isKnockedBack)
+        {
+            if (Mathf.Abs(rb.linearVelocity.x) < 0.1f)
+            {
+                isKnockedBack = false;
+            }
+            else
+            {
+                return; 
+            }
+        }
+        if (isDashing || PlayerAttack.Instance.GetIsAttacking() || isAttacked){
+            return;
+        }
+        
+        float fallSpeed = (PlayerInputs.Instance.GetVertical() < 0) ? -speed : rb.linearVelocity.y;
+        rb.linearVelocity = new Vector2(PlayerInputs.Instance.GetHorizontal() * speed, fallSpeed);
+        // dashing
+        if(Input.GetKeyDown(KeyCode.L) && canDash){
+            StartCoroutine(Dash());
+        }
+        
+
+        // Check if sprite flip is necesarry accordint to movement
+        if (isFacingRight && PlayerInputs.Instance.GetHorizontal() < 0f || !isFacingRight && PlayerInputs.Instance.GetHorizontal() > 0f){
+            Flip();
+        }
+        // Jump check
+        if (Input.GetButtonDown("Jump") && IsGrounded()){
+            Jump();
+        }
+        // Update Player Position
+        position = transform.position;
+    }
+    private void FixedUpdate(){
+        if (isDashing || PlayerAttack.Instance.GetIsAttacking()){
+            return;
+        }
+        rb.linearVelocity = new Vector2(PlayerInputs.Instance.GetHorizontal() * speed, rb.linearVelocity.y);
+    }
+     // Functions
     void Flip(){
         isFacingRight = !isFacingRight;
         Vector3 scale = transform.localScale; // tells you x,y,z scale of the object and saves 
@@ -99,49 +143,5 @@ public class PlayerMovement : MonoBehaviour
         int direction = (attackerPosition.x < GetPosition().x) ? 1 : -1;
         rb.linearVelocity = new Vector2(knockback * knockbackForce * direction, rb.linearVelocity.y);
     }
-    // Update is called once per frame
-    void Update()
-    {
-        if (isKnockedBack)
-        {
-            if (Mathf.Abs(rb.linearVelocity.x) < 0.1f)
-            {
-                isKnockedBack = false;
-            }
-            else
-            {
-                return; 
-            }
-        }
-        if (isDashing || PlayerAttack.Instance.GetIsAttacking() || isAttacked){
-            return;
-        }
-        
-        float fallSpeed = (PlayerInputs.Instance.GetVertical() < 0) ? -speed : rb.linearVelocity.y;
-        rb.linearVelocity = new Vector2(PlayerInputs.Instance.GetHorizontal() * speed, fallSpeed);
-        // dashing
-        if(Input.GetKeyDown(KeyCode.L) && canDash){
-            StartCoroutine(Dash());
-        }
-        
-
-        // Check if sprite flip is necesarry accordint to movement
-        if (isFacingRight && PlayerInputs.Instance.GetHorizontal() < 0f || !isFacingRight && PlayerInputs.Instance.GetHorizontal() > 0f){
-            Flip();
-        }
-        // Jump check
-        if (Input.GetButtonDown("Jump") && IsGrounded()){
-            Jump();
-        }
-        // Update Player Position
-        position = transform.position;
-    }
-    private void FixedUpdate(){
-        if (isDashing || PlayerAttack.Instance.GetIsAttacking()){
-            return;
-        }
-        rb.linearVelocity = new Vector2(PlayerInputs.Instance.GetHorizontal() * speed, rb.linearVelocity.y);
-    }
-    
     
 }
